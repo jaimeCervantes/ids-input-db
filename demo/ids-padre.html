@@ -17,7 +17,7 @@
     </style>
 
     [[valuePadre]]
-    <ids-input-db id="nombre"value="{{valuePadre}}" ></ids-input-db>
+    <ids-input-db id="nombre" value="{{valuePadre}}" ></ids-input-db>
   </template>
 
   <script>
@@ -41,7 +41,10 @@
 
       ready () {
         super.ready();
-        this.$.nombre.addEventListener('value-changed', this.valueHandler);
+        // this.$ --> tiene los ids del shadom DOM de este componente
+        this.$.nombre
+        // Demostrando el custom event que crea polymer
+        .addEventListener('value-changed', this.valueHandler);
       }
 
       valueHandler (e) {

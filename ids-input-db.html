@@ -7,6 +7,7 @@
         display: block;
       }
     </style>
+    <!-- Bindeo de dos direcciones a elementos nativos del DOM-->
     <input value="{{value::input}}">
   </template>
 
@@ -25,6 +26,7 @@
         return {
           value: {
             type: String,
+            // Crea automaticamente custom events para que el padre lo escuche y establesca el valor a su propiedad
             notify: true
           }
         };
