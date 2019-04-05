@@ -26,6 +26,10 @@
 
     <p>Propiedad computada saludoCompleto: <strong>[[saludoCompleto]]</strong></p>
 
+    <label>propObservada
+      <input value="{{propObservada::input}}">
+    </label>
+
     <template is="dom-repeat" items="[[personas]]" as="nombre">
       <p>[[nombre]]</p>
     </template>
@@ -65,10 +69,11 @@
           value: {
             type: String,
             // Crea automaticamente custom events para que el padre lo escuche y establesca el valor a su propiedad
-            notify: true,
-            
-            observer: "_miMetodoObserver",
-            readOnly: true
+            notify: true
+          },
+          propObservada: {
+            type: String,
+            observer: "_miMetodoObserver"
           }
         };
       }
@@ -96,7 +101,7 @@
       }
 
       _miMetodoObserver(newValue, oldValue) {
-        //console.log(valor)
+        console.log(newValue, oldValue);
       }
 
     }
