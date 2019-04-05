@@ -78,9 +78,9 @@
         };
       }
 
-      static get observer () {
+      static get observers () {
         return [
-          "_miObserver(saludo, otraProp)"
+          "_miMetodoComplexObserver(saludo, comentarioExtra)"
         ];
       }
 
@@ -102,6 +102,11 @@
 
       _miMetodoObserver(newValue, oldValue) {
         console.log(newValue, oldValue);
+      }
+
+      _miMetodoComplexObserver (saludo, comentarioExtra) {
+        console.log(saludo);
+        console.log(comentarioExtra);
       }
 
     }
