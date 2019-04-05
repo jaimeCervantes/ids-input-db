@@ -1,0 +1,51 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="ids-hijo">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <pre style="overflow: scroll;"><code>
+      [[_stringify(objeto.*)]]
+    </code></pre>
+
+   <input type="text" value="{{email::change}}">
+
+    <button on-click="cambiarObjeto">Cambiar Objeto</button>
+  </template>
+
+  <script>
+    /**
+     * `ids-hijo`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class IdsHijo extends Polymer.Element {
+      static get is() { return 'ids-hijo'; }
+      static get properties() {
+        return {
+          objeto: {
+            type: Object,
+            notify: true
+          }
+        };
+      }
+      cambiarObjeto (e) {
+        //this.set('objeto.email', this.get('email'));
+        this.set('objeto', {...this.objeto, ...{ email: this.email } });
+      }
+
+      _stringify (change) {
+        return JSON.stringify(change.base);
+      }
+    }
+
+    window.customElements.define(IdsHijo.is, IdsHijo);
+  </script>
+</dom-module>

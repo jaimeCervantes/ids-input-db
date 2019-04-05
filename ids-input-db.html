@@ -6,11 +6,31 @@
       :host {
         display: block;
       }
+
+      label {
+        display: block;
+      }
     </style>
 
-    <label for="">[[label]]</label>
+    <label for="">Value
     <!-- Bindeo de dos direcciones a elementos nativos del DOM-->
     <input value="{{value::input}}">
+    </label>
+    <label>Saludo
+      <input value="{{saludo::input}}">
+    </label>
+
+    <label>Comentario
+      <input value="{{comentarioExtra::input}}">
+    </label>
+
+    <p>Propiedad computada saludoCompleto: <strong>[[saludoCompleto]]</strong></p>
+
+    <template is="dom-repeat" items="[[personas]]" as="nombre">
+      <p>[[nombre]]</p>
+    </template>
+
+    <button on-click="eliminarPersona">Eliminar</button>
   </template>
 
   <script>
@@ -26,13 +46,59 @@
       static get is() { return 'ids-input-db'; }
       static get properties() {
         return {
+          saludo: {
+            type: String,
+          },
+          comentarioExtra: {
+            type: String
+          },
+          saludoCompleto: {
+            type: String,
+            computed: "_miMetodoComputed(saludo, comentarioExtra)",
+          },
+          personas: {
+            type: Array,
+            value: function () {
+              return ['Norris', 'Nayello', "Beto", 'yoshi'];
+            }
+          },
           value: {
             type: String,
             // Crea automaticamente custom events para que el padre lo escuche y establesca el valor a su propiedad
-            notify: true
+            notify: true,
+            
+            observer: "_miMetodoObserver",
+            readOnly: true
           }
         };
       }
+
+      static get observer () {
+        return [
+          "_miObserver(saludo, otraProp)"
+        ];
+      }
+
+      eliminarPersona () {
+        this.personas.splice(2, 1);
+        this.personas = this.personas.slice();
+        this.notifyPath('personas');
+        // Hace todo lo que hacemos arriba
+        // this.splice('personas', 2, 1);
+      }
+
+      _miMetodoComputed (saludo, comentarioExtra) {
+        if (saludo === undefined) {
+          saludo = '';
+        }
+
+        return `${saludo} ${comentarioExtra}`;
+      }
+
+      _miMetodoObserver(newValue, oldValue) {
+        //console.log(valor)
+      }
+
     }
 
     window.customElements.define(IdsInputDb.is, IdsInputDb);

@@ -1,5 +1,7 @@
 <link rel="import" href="../../polymer/polymer-element.html">
 <link rel="import" href="../ids-input-db.html">
+<link rel="import" href="./ids-hijo.html">
+
 
 <dom-module id="ids-padre">
   <template>
@@ -16,10 +18,18 @@
       }
     </style>
 
-    [[valuePadre]]
-    <ids-input-db id="nombre" label="Escribe tu nombre" value="{{valuePadre}}" ></ids-input-db>
-    [[valueEmail]]
-    <ids-input-db id="email" label="Escribe tu email" value="{{valueEmail}}" ></ids-input-db>
+     <pre style="overflow: scroll;"><code>
+      [[_stringify(objetoPadre)]]
+    </code></pre>
+
+    <ids-hijo objeto="{{objetoPadre}}"></ids-hijo>
+
+    [[user.name.firstName]]
+    <ids-input-db id="firstName" label="Escribe tu nombre" value="{{user.name.firstName}}" saludo="Hola" comentario-extra="Soy algo"></ids-input-db>
+    [[user.name.lastName]]
+    <ids-input-db id="lastName" label="Escribe tu apellido" value="{{user.name.lastName}}" ></ids-input-db>
+    [[user.email]]
+    <ids-input-db id="email" label="Escribe tu email" value="{{user.email}}" ></ids-input-db>
 
   </template>
 
@@ -36,21 +46,47 @@
       static get is() { return 'ids-padre'; }
       static get properties() {
         return {
-          valueNombre: String,
-          valueEmail: String
+          user: {
+            type: Object,
+            value: function () {
+              return {
+                name: {
+                  lastName: '',
+                  firstName: ''
+                },
+                email: ''
+              }
+            }
+          },
+          objetoPadre: {
+            type: Object,
+            value: function () {
+              return {
+                name: {
+                  firstName: 'Juan',
+                  lastName: 'Cervantes'
+                },
+                email: 'juan.cervantes.h@gmai.com'
+              }
+            }
+          }
         };
       }
 
       ready () {
         super.ready();
         // this.$ --> tiene los ids del shadom DOM de este componente
-        this.$.nombre
+        this.$.firstName
         // Demostrando el custom event que crea polymer
         .addEventListener('value-changed', this.valueHandler);
       }
 
       valueHandler (e) {
         console.log(e);
+      }
+
+       _stringify (obj) {
+        return JSON.stringify(obj);
       }
     }
 
